@@ -30,12 +30,14 @@ class ListData {
   int id;
   String title;
   String url;
+  String thumbnailUrl;
 
   ListData({
     this.userId,
     this.id,
     this.title,
     this.url,
+    this.thumbnailUrl,
   });
 
 
@@ -44,6 +46,7 @@ class ListData {
     id: json["id"],
     title: json["title"],
     url: json["url"],
+    thumbnailUrl: json["thumbnailUrl"],
   );
 
 
@@ -53,6 +56,7 @@ class ListData {
     "id": id == null ? null : id,
     "title": title == null ? null : title,
     "url": url == null ? null : url,
+    "thumbnailUrl": thumbnailUrl == null ? null : thumbnailUrl,
 
   };
 }

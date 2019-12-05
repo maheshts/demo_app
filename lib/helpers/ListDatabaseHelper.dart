@@ -19,8 +19,8 @@ class ListDatabaseHelper {
   static final listTable = 'list_table';
 
 
-  static final columnId = '_id';
-  static final albumId = 'id';
+  static final columnId = 'id';
+  static final albumId = 'albumId';
   static final columnName = 'title';
   static final columnUrl = 'url';
   static final albumUrl = 'thumbnailUrl';

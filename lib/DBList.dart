@@ -4,7 +4,8 @@ import 'package:connectivity/connectivity.dart';
 import 'package:demo_app/datalist.dart';
 import 'package:demo_app/model/listdata.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'helpers/ListDatabaseHelper.dart';
 
 class DBDataList extends StatefulWidget {
@@ -18,7 +19,7 @@ class _DBDataListState extends State<DBDataList> {
   var _buttonIcon = Icons.cloud_download;
   var _buttonText = "Retrive Data";
   var _buttonColor = Colors.green;
-  final Connectivity _connectivity  = new Connectivity();
+  final Connectivity _connectivity = new Connectivity();
   StreamSubscription<ConnectivityResult> _connectionSubscription;
 
   final dbHelper = ListDatabaseHelper.instance;
@@ -38,41 +39,38 @@ class _DBDataListState extends State<DBDataList> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-            child: Text(
-              'Fetching data from DB',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+          child: Text(
+            'Fetching data from DB',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
             ),
-            // margin: EdgeInsets.only(right: 48),
+          ),
+          // margin: EdgeInsets.only(right: 48),
         ),
       ),
 
       body: FutureBuilder<List<ListData>>(
-    future: dbHelper.getUserModelData(),
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        future: dbHelper.getUserModelData(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          return ListView(
+            children: snapshot.data
+                .map((user) =>
+                ListTile(
+                  title: Text(user.title),
+                  subtitle: Text(user.thumbnailUrl),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.red,
 
-      return ListView(
-        children: snapshot.data
-            .map((user) =>
-
-            ListTile(
-              title: Text(user.url),
-              subtitle: Text(user.thumbnailUrl),
-              leading: CircleAvatar(
-                backgroundColor: Colors.red,
-
-              ),
-            ))
-            .toList(),
-      );
-
+                  ),
+                ))
+                .toList(),
+          );
 
 
-
-      /* Center(
+          /* Center(
         child: FutureBuilder<ListData>(
           ///If future is null then API will not be called as soon as the screen
           ///loads. This can be used to make this Future Builder dependent
@@ -150,8 +148,8 @@ class _DBDataListState extends State<DBDataList> {
         ),
       ),
 */
-    },
-    ),
+        },
+      ),
     );
   }
 
@@ -159,14 +157,38 @@ class _DBDataListState extends State<DBDataList> {
     check().then((intenet) {
       if (intenet != null && intenet) {
         // Internet Present Case
-        print('YES Net $dbHelper.getUserModelData()');
-        return dbHelper.getUserModelData();
+        print('YES DBLIST t $dbHelper.getUserModelData()');
+        return getUserData();
         //return NWService().getDemoResponse();
-      }else{
-        print('No Net');
+      } else {
+        print('No Net DBLIST');
         return dbHelper.getUserModelData();
       }
     });
   }
+
+
+  Future<List<ListData>> getUserData() async {
+    final response =
+    await http.get("https://jsonplaceholder.typicode.com/photos");
+    if (response.statusCode == 200) {
+      //list = json.decode(response.body) as List;
+      List<ListData> list = ListData.fromJson(
+          json.decode(response.body)) as List;
+      final result = json.decode(response.body);
+      print('result from server: $result');
+
+//    List<ListData> list = result.map((item) {
+//      //print('item in DB:  $item');
+//
+//      return ListData.fromJson(item);
+//    }).toList();
+//
+//    print(result);
+//    print('list $list');
+      return list;
+    }
+  }
+
 }
 

@@ -75,8 +75,8 @@ class ListDatabaseHelper {
         $columnId INTEGER PRIMARY KEY,
          $albumId INTEGER,
         $columnName TEXT NOT NULL,
-        $columnUrl TEXT NOT NULL,
-        $albumUrl TEXT NOT NULL
+        $columnUrl TEXT ,
+        $albumUrl TEXT 
     )
     ''');
   }
@@ -121,11 +121,13 @@ Future<int> inserts(Map<String, dynamic> row)async{
     if (result.length == 0) return null;
 
     List<ListData> list = result.map((item) {
-      print('item in DB:  $item');
+     //print('item in DB:  $item');
+
       return ListData.fromJson(item);
     }).toList();
 
     print(result);
+    print('list $list');
     return list;
   }
 

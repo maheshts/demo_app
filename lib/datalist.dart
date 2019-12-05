@@ -61,6 +61,8 @@ class _DataListState extends State<DataList> {
   }
 
   _fetchData() async {
+
+
     setState(() {
       isLoading = true;
     });
@@ -69,7 +71,7 @@ class _DataListState extends State<DataList> {
     if (response.statusCode == 200) {
       list = json.decode(response.body) as List;
       final result = json.decode(response.body);
-      print('result : $result');
+      print('result from server: $result');
       _insert(result);
       setState(() {
         isLoading = false;
@@ -77,6 +79,8 @@ class _DataListState extends State<DataList> {
     } else {
       throw Exception('Failed to load photos');
     }
+
+
   }
   
   _dbData(){

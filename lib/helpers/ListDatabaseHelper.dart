@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:demo_app/model/listdata.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -105,11 +106,28 @@ Future<int> inserts(Map<String, dynamic> row)async{
     // return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
-//  Future<List<Map<String, dynamic>>> getAllRecords() async {
-//    Database db = await instance.database;
-//    return await db.query(table);
-//  }
+  Future<List<Map<String, dynamic>>> getAllRecords() async {
+    Database db = await instance.database;
+    return await db.query(listTable);
+  }
 
+
+  Future<List<ListData>> getUserModelData() async {
+    Database dbClient = await instance.database;
+    String sql;
+    sql = "SELECT * FROM $listTable";
+
+    var result = await dbClient.rawQuery(sql);
+    if (result.length == 0) return null;
+
+    List<ListData> list = result.map((item) {
+      print('item in DB:  $item');
+      return ListData.fromJson(item);
+    }).toList();
+
+    print(result);
+    return list;
+  }
 
 
 

@@ -41,14 +41,30 @@ class ListData {
   });
 
 
-  factory ListData.fromJson(Map<String, dynamic> json) => new ListData(
-    userId: json["albumId"],
-    id: json["id"],
-    title: json["title"],
-    url: json["url"],
-    thumbnailUrl: json["thumbnailUrl"],
-  );
+  factory ListData.fromJson(Map<String, dynamic> json)
 
+  {
+    print('fromJson :  $json');
+    new ListData(
+      userId: json["albumId"],
+      id: json["id"],
+      title: json["title"],
+      url: json["url"],
+      thumbnailUrl: json["thumbnailUrl"],
+
+    );
+  }
+
+  factory ListData.fromMap(Map<String,dynamic>json){
+
+    new ListData(
+      userId: json["albumId"],
+      id: json["id"],
+      title: json["title"],
+      url: json["url"],
+      thumbnailUrl: json["thumbnailUrl"],
+    );
+  }
 
 
   Map<String, dynamic> toMap() => {

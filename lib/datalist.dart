@@ -7,6 +7,8 @@ import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
 
+import 'DBList.dart';
+
 class DataList extends StatefulWidget {
   @override
   _DataListState createState() => _DataListState();
@@ -25,10 +27,18 @@ class _DataListState extends State<DataList> {
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: RaisedButton(
-            child: new Text("Fetch Data"),
-            onPressed: _fetchData,
-          ),
+          child:new Row(
+            children: <Widget>[
+              RaisedButton(
+                child: new Text("Fetch Data"),
+                onPressed: _fetchData,
+              ),
+              RaisedButton(
+                child: new Text("DB Data"),
+                onPressed: _dbData,
+              ),
+            ],
+          ) 
         ),
         body: isLoading
             ? Center(
@@ -68,6 +78,13 @@ class _DataListState extends State<DataList> {
       throw Exception('Failed to load photos');
     }
   }
+  
+  _dbData(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DBDataList()),
+    );
+  }
 
 
   Future<void> _insert(result) async {
@@ -84,12 +101,22 @@ class _DataListState extends State<DataList> {
     //final id =await dbHelper.inserts(row);
     //print('inserted list row id: $id');
     _query();
+
+
   }
 
 
   void _query() async {
     final allRows = await dbHelper.queryRowCountData();
-    print('query all rows:  $allRows');
+    print('query count rows:  $allRows');
     //allRows.forEach((row) => print(row));
   }
+
+//  Future<void> allData() async {
+//    final allRows = await dbHelper.getAllRecords()();
+//    print('query count rows:  $allRows');
+//  }
 }
+
+
+

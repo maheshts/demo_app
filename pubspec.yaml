@@ -14,7 +14,7 @@ description: A Demo Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,6 +27,20 @@ dependencies:
   sqflite: ^1.1.7+3
   path_provider: ^1.0.0
   connectivity: ^0.4.5+7
+  #map_launcher: any
+
+  geolocator: ^5.1.5
+
+  # Google maps
+  google_maps_flutter: ^0.5.21+3
+
+  # Map markers clustering
+  fluster: ^1.1.2
+
+  # Cache manager
+  flutter_cache_manager: ^1.1.1
+
+
 
 dev_dependencies:
   flutter_test:

@@ -51,7 +51,8 @@ class _DBDataListState extends State<DBDataList> {
       ),
 
       body: FutureBuilder<List<ListData>>(
-        future: dbHelper.getUserModelData(),
+        //future: dbHelper.getUserModelData(),
+        future: getData(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
@@ -70,94 +71,20 @@ class _DBDataListState extends State<DBDataList> {
           );
 
 
-          /* Center(
-        child: FutureBuilder<ListData>(
-          ///If future is null then API will not be called as soon as the screen
-          ///loads. This can be used to make this Future Builder dependent
-          ///on a button click.
-          //future: _isButtonClicked ? NWService().getDemoResponse() : null,
-           future: _isButtonClicked ? getData():null,
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
 
-            ///when the future is null
-              case ConnectionState.none:
-                return Text(
-                  'Press the button to retrive data',
-                  textAlign: TextAlign.center,
-                );
-
-              case ConnectionState.active:
-
-              ///when data is being fetched
-              case ConnectionState.waiting:
-                return CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue));
-
-              case ConnectionState.done:
-              ///task is complete with an error (eg. When you
-              ///are offline)
-                if (snapshot.hasError)
-                  return Text(
-                    'Error:\n\n${snapshot.error}',
-                    textAlign: TextAlign.center,
-                  );
-                ///task is complete with some data
-                return Text(
-                  'Retrive Data:\n\n${snapshot.data.title}',
-                  textAlign: TextAlign.center,
-                );
-
-            }
-          },
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: _buttonColor,
-        onPressed: () {
-          ///Calling method to fetch data from the server
-          //NWService().getDemoResponse();
-          getData();
-
-          ///You need to reset UI by calling setState.
-          setState(() {
-            _isButtonClicked == false
-                ? _isButtonClicked = true
-                : _isButtonClicked = false;
-
-            if (!_isButtonClicked) {
-              _buttonIcon = Icons.cloud_download;
-              _buttonColor = Colors.green;
-              _buttonText = "Fetch Data";
-            } else {
-
-              _buttonIcon = Icons.replay;
-              _buttonColor = Colors.deepOrange;
-              _buttonText = "Reset";
-            }
-          });
-        },
-        icon: Icon(
-          _buttonIcon,
-          color: Colors.white,
-        ),
-        label: Text(
-          _buttonText,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-*/
         },
       ),
     );
   }
 
-  Future<ListData> getData() async {
+  Future<List<ListData>> getData() async {
+    print('inside get Data');
     check().then((intenet) {
       if (intenet != null && intenet) {
         // Internet Present Case
-        print('YES DBLIST t $dbHelper.getUserModelData()');
+       // print('YES DBLIST t $dbHelper.getUserModelData()');
+
+
         return getUserData();
         //return NWService().getDemoResponse();
       } else {
@@ -173,19 +100,18 @@ class _DBDataListState extends State<DBDataList> {
     await http.get("https://jsonplaceholder.typicode.com/photos");
     if (response.statusCode == 200) {
       //list = json.decode(response.body) as List;
-      List<ListData> list = ListData.fromJson(
-          json.decode(response.body)) as List;
+      List<ListData> list = ListData.fromJson(json.decode(response.body)) as List;
       final result = json.decode(response.body);
       print('result from server: $result');
 
-//    List<ListData> list = result.map((item) {
-//      //print('item in DB:  $item');
-//
-//      return ListData.fromJson(item);
-//    }).toList();
-//
-//    print(result);
-//    print('list $list');
+     // print('length $list.length');
+
+     /* List<ListData> list = result.map((item) {
+        //print('item in DB:  $item');
+
+        return ListData.fromJson(item);
+      }).toList();*/
+
       return list;
     }
   }

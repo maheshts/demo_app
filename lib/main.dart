@@ -5,6 +5,8 @@ import 'package:demo_app/datalist.dart';
 import 'package:demo_app/helpers/DatabaseHelper.dart';
 import 'package:demo_app/model/data.dart';
 import 'package:demo_app/model/nwservice.dart';
+import 'package:demo_app/ui/GoogleMap.dart';
+import 'package:demo_app/ui/MapDemo.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: MyHomePage(title: 'Flutter Demo:'),
-      home: DataList(),
+      home: MapDemo(),
     );
   }
 }

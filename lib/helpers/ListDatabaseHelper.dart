@@ -127,7 +127,8 @@ Future<int> inserts(Map<String, dynamic> row)async{
     }).toList();
 
     print(result);
-    print('list $list');
+    print('list length');
+    print(list.length);
     return list;
   }
 
